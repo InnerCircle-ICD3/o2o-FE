@@ -1,5 +1,5 @@
 import { useInfiniteScroll } from "@/hooks/useInfiniteScroll";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface Store {
   id: number;
@@ -28,14 +28,11 @@ const StoreList = () => {
     <div>
       <ul style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
         {storeList.map((store) => (
-          <li
-            style={{ height: "100px", backgroundColor: "pink" }}
-            key={store.id}
-          >
+          <li style={{ height: "100px", backgroundColor: "pink" }} key={store.id}>
             {store.name}
           </li>
         ))}
-        {isFetching && <>loading...</>}
+        {isFetching && "loading..."}
       </ul>
     </div>
   );

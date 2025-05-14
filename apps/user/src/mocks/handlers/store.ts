@@ -3,7 +3,6 @@ import { http, HttpResponse } from "msw";
 interface Store {
   id: number;
   name: string;
-  // 필요한 다른 스토어 정보들 추가
 }
 
 interface PaginationResponse<T> {
@@ -21,8 +20,7 @@ const stores = Array.from(Array(1024).keys()).map(
   (id): Store => ({
     id,
     name: `Store ${id}`,
-    // 필요한 다른 스토어 정보들 추가
-  })
+  }),
 );
 
 export const storeHandlers = [

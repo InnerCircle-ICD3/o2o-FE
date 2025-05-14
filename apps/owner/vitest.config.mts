@@ -12,18 +12,8 @@ export default defineConfig({
       provider: "v8",
       reporter: ["text", "json-summary", "html", "lcov"],
       reportsDirectory: "./coverage",
-      include: [
-        "src/app/page.tsx", 
-        "src/components/**/*.tsx",
-        "src/stores/**/*.ts"
-      ],
-      exclude: [
-        "**/*.d.ts",
-        "**/*.test.ts",
-        "**/*.test.tsx",
-        "src/mocks/**",
-        "src/test/**"
-      ]
-    }
+      include: ["src/app/page.tsx", "src/components/**/*.tsx", "src/stores/**/*.ts"],
+      exclude: ["**/*.d.ts", "**/*.test.ts", "**/*.test.tsx", "src/mocks/**", "src/test/**"],
+    },
   },
 });
