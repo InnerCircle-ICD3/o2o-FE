@@ -1,6 +1,6 @@
 import { apiClient } from "@/apis/client";
 import { useQuery } from "@tanstack/react-query";
-import throttle from "lodash/throttle";
+import throttle from "lodash.throttle";
 import { useEffect, useState } from "react";
 
 interface InfiniteScrollOptions {
@@ -32,7 +32,7 @@ export const useInfiniteScroll = ({ size, api }: InfiniteScrollOptions) => {
     queryKey: ["stores", page],
     queryFn: async () => {
       const response = await apiClient.get<PaginationResponse<Store>>(
-        `${api}?page=${page}&size=${size}`,
+        `${api}?page=${page}&size=${size}`
       );
       return response;
     },
