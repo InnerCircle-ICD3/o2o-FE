@@ -1,11 +1,17 @@
 "use client";
 
 import Button from "@/components/common/button";
+import type { Product } from "@/types/apis/store.type";
 import { useState } from "react";
 import ProductBottomSheet from "../productBottomSheet";
 import * as style from "./productSelector.css";
 
-const ProductSelector = () => {
+interface ProductSelectorProps {
+  storeProducts: Product[];
+}
+
+const ProductSelector = (props: ProductSelectorProps) => {
+  const { storeProducts } = props;
   const [isShow, setIsShow] = useState(false);
 
   const handleOpenSelector = () => {
@@ -24,7 +30,11 @@ const ProductSelector = () => {
         </Button>
       </div>
 
-      <ProductBottomSheet isShow={isShow} onClose={handleCloseSelector} />
+      <ProductBottomSheet
+        isShow={isShow}
+        storeProducts={storeProducts}
+        onClose={handleCloseSelector}
+      />
     </>
   );
 };

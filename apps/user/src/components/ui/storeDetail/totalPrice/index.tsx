@@ -1,18 +1,30 @@
+import { formatCurrency } from "@/utils/format";
 import * as style from "./totalPrice.css";
 
-const TotalPrice = () => {
+interface TotalPriceProps {
+  result: {
+    count: number;
+    originalPrice: number;
+    finalPrice: number;
+  };
+}
+
+const TotalPrice = (props: TotalPriceProps) => {
+  const { result } = props;
+  const { count, originalPrice, finalPrice } = result;
+
   return (
     <div className={style.container}>
-      <p className={style.count}>총 수량 1개</p>
+      <p className={style.count}>총 수량 {count}개</p>
 
       <div className={style.amountWrapper}>
         <div className={style.row}>
           <span className={style.label}>총 금액</span>
-          <strong className={style.price}>14,000</strong>
+          <strong className={style.price}>{formatCurrency(originalPrice)}</strong>
         </div>
         <div className={style.row}>
           <span className={style.label}>나의 할인가</span>
-          <strong className={style.price}>13,300</strong>
+          <strong className={style.price}>{formatCurrency(finalPrice)}</strong>
         </div>
       </div>
     </div>

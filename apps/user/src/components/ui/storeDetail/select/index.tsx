@@ -1,15 +1,28 @@
 import Checkbox from "@/components/common/checkbox";
+import type { Product, SelectedProduct } from "@/types/apis/store.type";
 import Image from "next/image";
 import { useState } from "react";
 import * as style from "./select.css";
 
-const Select = () => {
+interface SelectProps {
+  storeProducts: Product[];
+  selectedProducts: SelectedProduct[];
+  onChange: (product: Product) => void;
+}
+
+const Select = (props: SelectProps) => {
+  const { storeProducts, selectedProducts, onChange } = props;
   const [isOpen, setIsOpen] = useState(false);
 
   const buttonStyle = isOpen ? style.button.opened : style.button.default;
 
   const handleToggle = () => {
     setIsOpen((prev) => !prev);
+  };
+
+  const handleSelectProduct = (product: Product) => {
+    onChange(product);
+    setIsOpen(false);
   };
 
   return (
@@ -21,56 +34,27 @@ const Select = () => {
 
       {isOpen && (
         <ul className={style.list}>
-          <li>
-            <label className={style.item}>
-              <Checkbox
-                checked={false}
-                onChange={() => {
-                  console.log("???");
-                }}
-              />
-              <span>상품 이름입니다.</span>
-            </label>
-          </li>
-          <li>
-            <label className={style.item}>
-              <Checkbox
-                checked={false}
-                onChange={() => {
-                  console.log("???");
-                }}
-              />
-              <span>상품 이름입니다.</span>
-            </label>
-          </li>
-          <li>
-            <label className={style.item}>
-              <Checkbox
-                checked={false}
-                onChange={() => {
-                  console.log("???");
-                }}
-              />
-              <span>상품 이름입니다.</span>
-            </label>
-          </li>
-          <li>
-            <label className={style.item}>
-              <Checkbox
-                checked={false}
-                onChange={() => {
-                  console.log("???");
-                }}
-              />
-              <span>상품 이름입니다.</span>
-            </label>
-          </li>
-          <li>
-            <label className={style.item}>
-              <Checkbox checked={false} onChange={() => {}} />
-              <span>상품 이름입니다.</span>
-            </label>
-          </li>
+          {storeProducts.map((product) => {
+            const isSoldOut = product.inventory.quantity === 0;
+            const itemStyle = isSoldOut ? style.item.soldOut : style.item.default;
+
+            return (
+              <li key={product.id}>
+                <label className={itemStyle}>
+                  <Checkbox
+                    checked={selectedProducts.some(
+                      (selectedProduct) => selectedProduct.id === product.id,
+                    )}
+                    disabled={isSoldOut}
+                    onChange={() => {
+                      handleSelectProduct(product);
+                    }}
+                  />
+                  <span>{product.name}</span>
+                </label>
+              </li>
+            );
+          })}
         </ul>
       )}
     </div>

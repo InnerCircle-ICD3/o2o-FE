@@ -7,6 +7,15 @@ const nextConfig: NextConfig = {
   /* config options here */
   distDir: ".next",
   output: "standalone",
+
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "example.com",
+      },
+    ],
+  },
 };
 
 export default withVanillaExtract(nextConfig);

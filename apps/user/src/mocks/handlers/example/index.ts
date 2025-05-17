@@ -17,6 +17,7 @@ const handlers = [
 
   http.get(`${baseUrl}/example/params/:userId`, ({ params }) => {
     const { userId } = params;
+    console.log("userId", userId);
     // Given "/params/123",
     return HttpResponse.json({
       id: userId,

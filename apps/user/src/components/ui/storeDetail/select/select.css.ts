@@ -1,3 +1,4 @@
+import { middleStroke } from "@/styles/global.css";
 import { globalTheme } from "@/styles/theme.css";
 import { style, styleVariants } from "@vanilla-extract/css";
 
@@ -56,7 +57,7 @@ export const list = style({
   overflowY: "auto",
 });
 
-export const item = style({
+const itemBase = style({
   display: "flex",
   justifyContent: "flex-start",
   alignItems: "center",
@@ -66,4 +67,15 @@ export const item = style({
   backgroundColor: globalTheme.color.white,
 
   fontWeight: 500,
+});
+
+export const item = styleVariants({
+  default: [itemBase],
+  soldOut: [
+    itemBase,
+    middleStroke,
+    {
+      color: globalTheme.color.gray.base,
+    },
+  ],
 });
