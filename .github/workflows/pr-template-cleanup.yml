@@ -1,0 +1,94 @@
+name: PR 템플릿 정리 자동화
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  cleanup-pr-description:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: write
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: PR에 정리 안내 댓글 추가
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number } = context.issue;
+            
+            github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: number,
+              body: '안녕하세요! 👋\n\n10분 이내에 내용을 작성하지 않은 섹션들은 자동으로 삭제됩니다. 작성을 완료하신 섹션의 가이드 코멘트(`>` 로 시작하는 줄)도 자동으로 정리됩니다. 필요한 정보를 모두 작성해주세요!'
+            });
+
+      - name: 10분 대기
+        run: sleep 600
+
+      - name: PR 설명 정리 수행
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, number } = context.issue;
+            
+            // 현재 PR 설명 가져오기
+            const pr = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: number
+            });
+            
+            let description = pr.data.body;
+            if (!description) return;
+            
+            // 각 섹션 처리
+            const sections = description.split(/^## /m);
+            const processedSections = [];
+            
+            // 첫 ## 이전 텍스트가 있으면 유지
+            if (sections[0] && !sections[0].startsWith('#')) {
+              processedSections.push(sections[0]);
+            }
+            
+            // 각 제목과 함께 섹션 처리
+            for (let i = 1; i < sections.length; i++) {
+              const section = sections[i];
+              const lines = section.split('\n');
+              const heading = lines[0];
+              const content = lines.slice(1).join('\n');
+              
+              // 빈 섹션이나 가이드 코멘트만 있는 섹션 건너뛰기
+              const contentWithoutGuides = content.replace(/^> .*$/gm, '').trim();
+              if (!contentWithoutGuides) {
+                continue; // 이 섹션 건너뛰기
+              }
+              
+              // 내용이 있는 섹션의 가이드 코멘트 제거
+              const cleanedContent = content.split('\n')
+                .filter(line => !line.trim().startsWith('> '))
+                .join('\n');
+              
+              processedSections.push(`## ${heading}${cleanedContent}`);
+            }
+            
+            // PR 설명 업데이트
+            const newDescription = processedSections.join('');
+            
+            await github.rest.pulls.update({
+              owner,
+              repo,
+              pull_number: number,
+              body: newDescription
+            }); 
