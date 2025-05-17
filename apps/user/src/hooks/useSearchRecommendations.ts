@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
 import { baseUrl } from "@/mocks/utils";
+import { useEffect, useRef, useState } from "react";
 
 interface UseSearchRecommendationsResult {
   recommendations: string[];
