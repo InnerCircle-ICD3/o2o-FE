@@ -3,8 +3,7 @@ import { style, styleVariants } from "@vanilla-extract/css";
 
 const button = style({
   width: "100%",
-  height: "auto",
-  aspectRatio: "327/60",
+  height: "60px",
 
   borderWidth: "1px",
   borderStyle: "solid",

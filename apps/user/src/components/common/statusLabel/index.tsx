@@ -1,7 +1,6 @@
+import type { StatusLabelType } from "@/types/statusLabel.type";
 import type { PropsWithChildren } from "react";
 import { statusLabel } from "./statusLabel.css";
-
-type StatusLabelType = keyof typeof statusLabel;
 
 interface StatusLabelProps extends PropsWithChildren {
   status: StatusLabelType;

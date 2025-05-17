@@ -6,6 +6,7 @@ const containerBase = style({
   position: "fixed",
   bottom: 0,
   left: 0,
+  zIndex: 9999,
 
   width: "100%",
 });

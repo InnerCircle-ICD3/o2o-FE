@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { type PropsWithChildren, useEffect, useState } from "react";
 import { createPortal } from "react-dom";

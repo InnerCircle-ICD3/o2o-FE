@@ -34,6 +34,9 @@
         "useConst": "error",
         "useTemplate": "error",
         "useNamingConvention": "error"
+      },
+      "a11y": {
+        "noLabelWithoutControl": "off"
       }
     }
   },
