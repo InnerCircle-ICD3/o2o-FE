@@ -62,3 +62,10 @@ export const formatHourTo12HourText = (time: string) => {
 
   return `${period} ${hour12}시 ${minute}분`;
 };
+
+/**
+ * 10이하의 숫자에 0을 붙입니다.
+ */
+export const formatTime = (time: number): string => {
+  return time < 10 ? `0${time}` : `${time}`;
+};
